@@ -5,40 +5,42 @@ def employee_transform(df):
 
     df=df.copy()
 
-    # employee name proper case or clean name
+    # 1 Clean employee name
     df["name"]=df["name"].str.strip().str.title()
     print("\nProper Name")
     print(df)
     print()
 
-    # department name lowercase
+    # 2 Normalize department
     df["department"]=df["department"].str.strip().str.lower()
     print("\ndept lower case")
     print(df)
     print()
 
-    # employee missing salary
+    # 3 Check missing salary
     missing_salary=df["salary"].isnull().sum()
     if missing_salary > 0:
         print(f"Warning: {missing_salary} employee(s) have missing salary")
 
-    # Average salary for valid employee
+    # Calculate Average salary
     print()
-    valid_emp_df=df["salary"].notna()
-    print(valid_emp_df/len(valid_emp_df))
+    average_salary=df["salary"].mean()
+    print("\nAvarage Salary")
+    print(average_salary)
 
     # valid and invalid employee
     valid_records=df["salary"].notna()
     print()
     valid_df=df[valid_records]
-    Invalid_df=df[~valid_records]
-    print("Valid_df")
-    print(valid_df)
-    print()
-    print("InValid_df")
-    print(Invalid_df)
+    invalid_df=df[~valid_records]
 
-    return df
+    print("\nValid employees:")
+    print(valid_df)
+
+    print("\nInvalid employees:")
+    print(invalid_df)
+
+    return df, valid_df, invalid_df
 
 
 employees = [
@@ -49,13 +51,14 @@ employees = [
 ]
 
 
-df=pd.DataFrame(employees)
+df = pd.DataFrame(employees)
 # df.head()
 
-df=employee_transform(df)
+df, valid_df, invalid_df=employee_transform(df)
 print()
 
 # salary > 40000
-salary=df["salary"] > 40000
-employee_salary=df[salary]
+high_salary=df["salary"] > 40000
+employee_salary=df[high_salary]
+print("\nEmployees with salary > 40000:")
 print(employee_salary)
