@@ -66,8 +66,6 @@ print("")
 print("\nno of employee in each department")
 print(result3)
 
-
-
 # query 4 ~ Highest paid employee in each dept
 query4=cursor.execute("""select name, department, salary, rn 
                          FROM (select department, name, salary, ROW_NUMBER() OVER(PARTITION BY department ORDER BY salary DESC) as rn 
