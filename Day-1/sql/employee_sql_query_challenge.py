@@ -56,5 +56,16 @@ print(result1)
 query2=cursor.execute("Select department, AVG(salary) from employees_2 group by department;")
 result2=query2.fetchall()
 print("") 
-print("\nAGG Salary by department")
+print("\nAVG Salary by department")
 print(result2)
+
+
+# query 3 ~ Highest paid employee in each dept
+query3=cursor.execute("""select name, department, salary, rn 
+                         FROM (select department, name, salary, ROW_NUMBER() OVER(PARTITION BY department ORDER BY salary DESC) as rn 
+                         FROM employees_2) t where rn=1;""")
+result3=query3.fetchall()
+print("") 
+print("\nHighest paid salary in each department")
+print(result3)
+
