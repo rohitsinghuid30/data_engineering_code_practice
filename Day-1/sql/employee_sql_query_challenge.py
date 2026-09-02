@@ -75,3 +75,12 @@ print("")
 print("\nHighest paid salary in each department")
 print(result4)
 
+# query 5 ~ Rank employee by salary with each dept
+query5=cursor.execute("""
+                        SELECT id, name, department, salary, RANK() OVER (PARTITION BY department ORDER BY salary DESC) as 'salary_rank'
+                        FROM employees_2;
+""")
+result5=query5.fetchall()
+print("") 
+print("\nRank employee by salary with each dept")
+print(result5)
